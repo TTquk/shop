@@ -7,13 +7,15 @@
     <meta name="robots" content="noindex">
 
     <!--
-      伪静态回退页（GitHub Pages / 任意未知路径）
+      伪静态回退页（GitHub Pages 404 / Netlify 404 / 任意未知路径）
 
-      ⚠️ 本页刻意不引用任何外部资源。
-      因为它会被 /user/authentication/login、/repo/item/2 这类「深层未知路径」命中，
-      此时页面里的相对路径 assets/… 会被解析成 /user/authentication/assets/…，
-      全部 404，页面就成了裸 HTML。所以样式与图标全部内联。
-      同理，这里也不依赖 ready.js / _.js，完全是独立的一份最小实现。
+      ⚠️ 本页刻意不引用任何外部资源，也不依赖 ready.js / _.js。
+      原因：它会被 /shop/item/1、/shop/nope/deep 这类「深层未知路径」命中，
+      此时页面里的相对路径 assets/… 会被解析成 /shop/nope/assets/… 全部 404，
+      页面就退化成裸 HTML。所以样式、图标、路由全部内联、独立实现。
+
+      GitHub Pages 不支持 _redirects（那是 Netlify 的能力），
+      所有伪静态地址都会落到本页，由下方脚本接管跳转。
     -->
 
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%236366f1'/%3E%3Cstop offset='1' stop-color='%23ec4899'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url(%23g)'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-family='Segoe UI,Arial' font-size='36' font-weight='700' fill='%23fff'%3ER%3C/text%3E%3C/svg%3E">
@@ -134,7 +136,8 @@
         <p class="muted" id="sub">如果没有自动跳转，请手动选择一个入口：</p>
 
         <div class="actions">
-            <a class="btn" href="index.html">返回商店</a>
+            <!-- href 由下方脚本按站点根改写，这里的值仅作无 JS 时的兜底 -->
+            <a class="btn" id="home" href="index.html">返回商店</a>
         </div>
 
         <p class="target" id="target"></p>
@@ -154,20 +157,47 @@
         var path = decodeURIComponent(location.pathname);
         var search = location.search || '';
         var target = null;
+        var prefix = null;   // 命中规则捕获到的前缀，也就是站点根
 
+        /*
+         * 站点根（BASE）推算 —— 同一份代码要同时兼容两种部署：
+         *   根目录部署            https://example.com/          → ''       即 /index.html
+         *   GitHub Pages 子目录   https://user.github.io/shop/  → '/shop'  即 /shop/index.html
+         *
+         * 本页所有合法路由的第一段都是固定词（item / cat / order / index.html…），
+         * 所以当「第一段不是这些词、且后面还有一段」时，第一段就是仓库名前缀。
+         * 这样就不必把仓库名写死在代码里。
+         */
+        var ROUTE_WORDS = ['item', 'cat', 'order', 'index.html', 'index.php'];
+        var segs = path.split('/').filter(function (s) { return s !== ''; });
+
+        function guessBase() {
+            if (segs.length >= 2 && ROUTE_WORDS.indexOf(segs[0]) < 0) return '/' + segs[0];
+            return '';
+        }
+
+        // 末尾的 \/? 用于兼容「带斜杠」的漂亮地址，例如 /shop/item/1/
         var rules = [
-            [/^(.*)\/item\/([^/]+)$/, function (m) { return m[1] + '/item.html?id=' + encodeURIComponent(m[2]); }],
-            [/^(.*)\/cat\/([^/]+)$/, function (m) { return m[1] + '/index.html?cat=' + encodeURIComponent(m[2]); }],
-            [/^(.*)\/order\/([^/?#]+)$/, function (m) { return m[1] + '/order.html?no=' + encodeURIComponent(m[2]); }],
-            [/^(.*)\/order$/, function (m) { return m[1] + '/order.html'; }],
+            [/^(.*)\/item\/([^/]+)\/?$/, function (m) { return m[1] + '/item.html?id=' + encodeURIComponent(m[2]); }],
+            [/^(.*)\/cat\/([^/]+)\/?$/, function (m) { return m[1] + '/index.html?cat=' + encodeURIComponent(m[2]); }],
+            [/^(.*)\/order\/([^/?#]+)\/?$/, function (m) { return m[1] + '/order.html?no=' + encodeURIComponent(m[2]); }],
+            [/^(.*)\/order\/?$/, function (m) { return m[1] + '/order.html'; }],
             [/^(.*)\/index\.php$/, function (m) { return m[1] + '/index.html'; }],
             [/^(.*)\/$/, function (m) { return (m[1] || '') + '/index.html'; }]
         ];
 
         for (var i = 0; i < rules.length; i++) {
             var match = path.match(rules[i][0]);
-            if (match) { target = rules[i][1](match); break; }
+            if (match) { prefix = match[1]; target = rules[i][1](match); break; }
         }
+
+        /*
+         * 「返回商店」必须用站点根拼成绝对路径。
+         * 本页会被 /shop/item/1 这类深层地址命中，此时相对路径 index.html
+         * 会被解析成 /shop/item/index.html —— 又一次 404。
+         */
+        var base = (prefix !== null) ? prefix : guessBase();
+        document.getElementById('home').setAttribute('href', base + '/index.html');
 
         if (target) {
             target += search;
