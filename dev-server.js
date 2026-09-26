@@ -1,11 +1,16 @@
 /**
  * dev-server.js —— 零依赖本地预览服务器（Node 18+）
  *
- * 用法：node dev-server.js [端口]
+ * 用法：node dev-server.js [端口] [挂载点]
+ *   node dev-server.js                    → http://127.0.0.1:5178/
+ *   node dev-server.js 5179 /shop         → http://127.0.0.1:5179/shop/
+ *
  * 作用：
  *   - 静态托管当前目录
  *   - 支持与 _redirects 一致的伪静态路由（/item/2 -> item.html?id=2）
  *     这样本地就能验证生产环境的 URL 行为
+ *   - 【挂载点】把站点挂在子路径下，用来模拟 GitHub Pages 项目站
+ *     （https://<user>.github.io/<repo>/）—— 这是最容易出问题的部署场景
  *   - 正确设置 MIME、禁用缓存，方便调试
  */
 const http = require('http');
@@ -14,6 +19,14 @@ const path = require('path');
 
 const ROOT = __dirname;
 const PORT = Number(process.argv[2] || process.env.PORT || 5178);
+
+/** 可选的子路径挂载点，例如 /shop；为空则挂在根目录 */
+const BASE = (function (v) {
+    v = String(v == null ? '' : v).trim();
+    if (!v || v === '/') return '';
+    if (v.charAt(0) !== '/') v = '/' + v;
+    return v.replace(/\/+$/, '');
+})(process.argv[3] || process.env.BASE || '');
 
 const MIME = {
     '.html': 'text/html; charset=utf-8',
@@ -82,6 +95,13 @@ const server = http.createServer((req, res) => {
     const parsed = new URL(req.url, 'http://localhost');
     let pathname = decodeURIComponent(parsed.pathname || '/');
 
+    // 可选挂载点：先剥掉前缀，后续逻辑全部按站点内路径处理
+    if (BASE) {
+        if (pathname === BASE) pathname = '/';
+        else if (pathname.indexOf(BASE + '/') === 0) pathname = pathname.slice(BASE.length);
+        else return send(res, 404, 'Not Found', { 'Content-Type': 'text/plain; charset=utf-8' });
+    }
+
     // 目录 -> 补 index.html
     if (pathname.endsWith('/')) pathname += 'index.html';
 
@@ -92,7 +112,7 @@ const server = http.createServer((req, res) => {
     if (route) {
         const sep = route.indexOf('?') >= 0 ? '&' : '?';
         const extra = parsed.search ? sep + parsed.search.replace(/^\?/, '') : '';
-        return send(res, 302, '', { Location: route + extra });
+        return send(res, 302, '', { Location: BASE + route + extra });
     }
 
     // 防目录穿越
@@ -103,9 +123,11 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, () => {
+    const prefix = BASE;
     console.log('');
-    console.log('  RoseShop static shop  ->  http://127.0.0.1:' + PORT + '/');
-    console.log('  伪静态示例            ->  http://127.0.0.1:' + PORT + '/item/2');
+    console.log('  RoseShop static shop  ->  http://127.0.0.1:' + PORT + prefix + '/');
+    console.log('  伪静态示例            ->  http://127.0.0.1:' + PORT + prefix + '/item/2');
+    if (BASE) console.log('  （已挂在 ' + BASE + '/ 下，用于模拟 GitHub Pages 项目站）');
     console.log('  停止服务：Ctrl + C');
     console.log('');
 });
