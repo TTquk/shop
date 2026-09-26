@@ -76,7 +76,8 @@ setVar("I18N", {
         "虚拟商品一经售出概不退换，真实经营请以经营者公示规则为准。": "虛擬商品一經售出概不退換，真實經營請以經營者公示規則為準。",
         "如需商业化，请接入合规后端服务与正规支付通道。": "如需商業化，請接入合規後端服務與正規支付通道。",
         "在线客服 QQ 3950769322": "線上客服 QQ 3950769322",
-        "补差价": "補差價"
+        "补差价": "補差價",
+        "按要求支付完成后，加客服微信：sunyoung-xu，发截图就可以了": "按要求付款完成後，加客服微信：sunyoung-xu，發截圖就可以了"
     },
     "en-us": {
         "购物": "Shop",
@@ -151,6 +152,7 @@ setVar("I18N", {
         "虚拟商品一经售出概不退换，真实经营请以经营者公示规则为准。": "Digital goods are non-refundable; refer to the operator's published policy in production.",
         "如需商业化，请接入合规后端服务与正规支付通道。": "For production, plug in a compliant backend and a licensed payment gateway.",
         "在线客服 QQ 3950769322": "Live support QQ 3950769322",
-        "补差价": "Top-up / price difference"
+        "补差价": "Top-up / price difference",
+        "按要求支付完成后，加客服微信：sunyoung-xu，发截图就可以了": "After paying as instructed, add our WeChat sunyoung-xu and send us the screenshot."
     }
 });

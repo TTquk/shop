@@ -71,6 +71,9 @@
 .checkout-bar__sum { font-size: .88rem; color: var(--rs-muted); }
 .checkout-bar__amount { font-size: 1.6rem; font-weight: 800; color: var(--rs-accent); letter-spacing: -.6px; }
 
+/* 购买区下方的支付备注 */
+.item-pay-note { margin-top: 14px; line-height: 1.75; overflow-wrap: anywhere; }
+
 .detail-body { line-height: 1.85; color: var(--rs-text-2); font-size: .95rem; }
 .detail-body p { margin: 0 0 10px; }
 .detail-body img { max-width: 100%; border-radius: 12px; box-shadow: var(--rs-shadow-sm); margin: 6px 0; }

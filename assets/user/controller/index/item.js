@@ -107,12 +107,24 @@
             '<button class="rs-btn rs-btn--lg" data-role="submit">' + i18n('立即付款') + '</button>' +
             '</div>' +
             '</div>' +
+
+            // 支付备注：固定显示在整个购买区下方
+            '<div class="rs-alert rs-alert--info item-pay-note" data-role="pay-note">' +
+            '💳 ' + util.escapeHtml(i18n('按要求支付完成后，加客服微信：sunyoung-xu，发截图就可以了')) +
+            '</div>' +
+
             '</div>'
         );
 
         // 商品详情只渲染描述文本（原来的「商品 ID / 分类 ID」是调试信息，已去掉）
+        // 描述按行拆分，一个自然段渲染成一个 <p>，空行忽略
         const description = String(item.description || '').trim();
-        $Detail.html(description ? '<p>' + util.escapeHtml(description) + '</p>' : '<p class="text-muted-2">—</p>');
+        $Detail.html(description
+            ? description.split(/\r?\n+/).map(function (line) {
+                line = line.trim();
+                return line ? '<p>' + util.escapeHtml(line) + '</p>' : '';
+            }).join('')
+            : '<p class="text-muted-2">—</p>');
 
         document.title = i18n(item.name) + ' - ' + ((getVar('CONFIG') || {}).site || {}).name;
         _Valuation();

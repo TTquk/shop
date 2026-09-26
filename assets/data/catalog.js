@@ -111,7 +111,8 @@ setVar("COMMODITIES", [
         id: 1, category_id: 1, name: "mc客户端任选一", cover: "assets/images/cover-mc.svg",
         price: 2, stock: 100, order_sold: 0, delivery_way: 1, recommend: 1,
         tags: [{ text: "热销", color: "orange" }],
-        description: "多种 MC 客户端任选其一。",
+        // 描述支持换行：一行 = 一个段落
+        description: "多种 MC 客户端任选其一。\n购买后客服一对一服务，几十种游戏端随便选",
         config: {}
     }
 ]);
