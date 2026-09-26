@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>商品详情 - RoseShop · 云上小店</title>
+    <meta name="keywords" content="商品详情,卡密,虚拟商品">
+    <meta name="description" content="商品详情与下单页">
+    <link rel="icon" href="assets/images/favicon.svg">
+    <link rel="stylesheet" href="assets/common/css/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/common/js/vendor/theme/default/layer.css">
+    <link rel="stylesheet" href="assets/common/css/vendor/toastr.min.css">
+    <link rel="stylesheet" href="assets/common/css/_.css">
+    <link rel="stylesheet" href="assets/user/css/index.css">
+</head>
+<body>
+
+<div data-chrome="header"></div>
+
+<main class="container shop-layout">
+    <div class="row g-3">
+        <div class="col-12 col-lg-9">
+            <div class="rs-panel" data-role="item-panel">
+                <div class="rs-panel__body"><span class="text-muted-2" data-i18n="努力加载中..">努力加载中..</span></div>
+            </div>
+
+            <section class="rs-panel">
+                <div class="rs-panel__head">
+                    <span class="rs-panel__icon">📄</span>
+                    <h6 data-i18n="宝贝详情">宝贝详情</h6>
+                </div>
+                <div class="rs-panel__body detail-body" data-role="item-detail">
+                    <span class="text-muted-2" data-i18n="努力加载中..">努力加载中..</span>
+                </div>
+            </section>
+        </div>
+
+        <aside class="col-12 col-lg-3">
+            <section class="rs-panel">
+                <div class="rs-panel__head"><span class="rs-panel__icon">💬</span><h6 data-i18n="联系与售后">联系与售后</h6></div>
+                <div class="rs-panel__body" data-role="contacts"></div>
+            </section>
+        </aside>
+    </div>
+</main>
+
+<div data-chrome="footer"></div>
+
+<script src="assets/common/js/vendor/jquery.min.js"></script>
+<script src="assets/common/js/vendor/bootstrap.bundle.min.js"></script>
+<script src="assets/common/js/vendor/layer.js"></script>
+<script src="assets/common/js/vendor/sweetalert2.all.min.js"></script>
+<script src="assets/common/js/vendor/toastr.min.js"></script>
+
+<script src="assets/common/js/ready.js?v=1.0.0"></script>
+<script src="assets/data/i18n.js?v=1.0.0"></script>
+<script src="assets/data/catalog.js?v=1.0.0"></script>
+<script src="assets/data/cards.js?v=1.0.0"></script>
+<script src="assets/common/js/_.js?v=1.0.0"></script>
+<script src="assets/user/js/_index.js?v=1.0.0"></script>
+
+<!-- 侧栏的通用信息（公告 / 售后）由公共层统一渲染 -->
+<script>treasure.renderSidebar();</script>
+<script>ready("user/controller/index/item.js");</script>
+</body>
+</html>

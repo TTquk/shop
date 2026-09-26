@@ -1,0 +1,23 @@
+# Netlify 重定向规则（GitHub Pages 用 404.html 做同样的事）
+#
+# 说明：这里刻意使用 302 而不是 200 rewrite。
+# 原因是本项目全程使用「相对路径」引用 assets/，这样才能同时部署在
+# 域名根目录和 GitHub Pages 的子目录（/repo/）下。
+# 如果使用 200 rewrite，地址栏会停在 /item/2，页面里的相对路径
+# 就会被解析成 /item/assets/... 而 404。
+#
+# 想要真正的伪静态（地址栏保持 /item/2）？见 README「进阶」一节。
+
+/                       /index.html                                       302
+/index.php              /index.html                                       302
+
+/cat/*                  /index.html?cat=:splat                            302
+/item/*                 /item.html?id=:splat                              302
+
+/order                  /order.html                                       302
+/order/*                /order.html?no=:splat                             302
+
+/assets/*               /assets/:splat                                   200
+
+# 兜底：交给 404 页面
+/*                      /404.html                                         404

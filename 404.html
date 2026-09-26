@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>页面跳转中 - RoseShop</title>
+    <meta name="robots" content="noindex">
+
+    <!--
+      伪静态回退页（GitHub Pages / 任意未知路径）
+
+      ⚠️ 本页刻意不引用任何外部资源。
+      因为它会被 /user/authentication/login、/repo/item/2 这类「深层未知路径」命中，
+      此时页面里的相对路径 assets/… 会被解析成 /user/authentication/assets/…，
+      全部 404，页面就成了裸 HTML。所以样式与图标全部内联。
+      同理，这里也不依赖 ready.js / _.js，完全是独立的一份最小实现。
+    -->
+
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%236366f1'/%3E%3Cstop offset='1' stop-color='%23ec4899'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url(%23g)'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-family='Segoe UI,Arial' font-size='36' font-weight='700' fill='%23fff'%3ER%3C/text%3E%3C/svg%3E">
+
+    <style>
+        :root {
+            --primary: #6366f1;
+            --accent: #ec4899;
+            --bg: #f5f6fb;
+            --surface: #ffffff;
+            --border: #e7e8f2;
+            --text: #1c1d29;
+            --text-2: #4a4c5f;
+            --muted: #8b8ea6;
+            --shadow-lg: 0 18px 50px rgba(24, 26, 48, .16);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0e1018;
+                --surface: #171a26;
+                --border: #272c3d;
+                --text: #eceefb;
+                --text-2: #b9bed4;
+                --muted: #7f869d;
+                --shadow-lg: 0 20px 56px rgba(0, 0, 0, .6);
+            }
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+                "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+            font-size: 15px;
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .notfound {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 16px;
+        }
+
+        .notfound__card {
+            max-width: 520px;
+            width: 100%;
+            text-align: center;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            box-shadow: var(--shadow-lg);
+            padding: 34px 28px;
+        }
+
+        .notfound__code {
+            font-size: 3.2rem;
+            font-weight: 800;
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        h1 { font-size: 1.2rem; margin: 12px 0 6px; }
+
+        .muted { color: var(--muted); font-size: .9rem; margin: 0; }
+        .target { color: var(--muted); font-size: .78rem; margin: 14px 0 0; word-break: break-all; }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 18px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            padding: 10px 20px;
+            border-radius: 12px;
+            border: 1px solid transparent;
+            background: var(--primary);
+            color: #fff;
+            font-size: .93rem;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            transition: .2s;
+        }
+        .btn:hover { filter: brightness(1.07); transform: translateY(-1px); }
+
+        .btn--ghost {
+            background: transparent;
+            color: var(--text-2);
+            border-color: var(--border);
+        }
+        .btn--ghost:hover { color: var(--primary); border-color: var(--primary); }
+    </style>
+</head>
+<body>
+
+<div class="notfound">
+    <div class="notfound__card">
+        <div class="notfound__code">404</div>
+        <h1 id="hint">正在为你跳转…</h1>
+        <p class="muted" id="sub">如果没有自动跳转，请手动选择一个入口：</p>
+
+        <div class="actions">
+            <a class="btn" href="index.html">返回商店</a>
+        </div>
+
+        <p class="target" id="target"></p>
+    </div>
+</div>
+
+<script>
+    /*
+     * 伪静态路由表：把 /item/2、/cat/3 这类地址映射回真实页面。
+     * 贪婪捕获组 (.*) 用来兼容 GitHub Pages 的子目录部署（/repo/…）——
+     * 它会把 /repo 这段前缀原样保留在目标地址里。
+     *
+     * 注意：本站已下线「账号注册 / 登录 / 后台管理」，
+     * 因此不再为 /user/authentication/* 与 /admin/* 提供映射。
+     */
+    (function () {
+        var path = decodeURIComponent(location.pathname);
+        var search = location.search || '';
+        var target = null;
+
+        var rules = [
+            [/^(.*)\/item\/([^/]+)$/, function (m) { return m[1] + '/item.html?id=' + encodeURIComponent(m[2]); }],
+            [/^(.*)\/cat\/([^/]+)$/, function (m) { return m[1] + '/index.html?cat=' + encodeURIComponent(m[2]); }],
+            [/^(.*)\/order\/([^/?#]+)$/, function (m) { return m[1] + '/order.html?no=' + encodeURIComponent(m[2]); }],
+            [/^(.*)\/order$/, function (m) { return m[1] + '/order.html'; }],
+            [/^(.*)\/index\.php$/, function (m) { return m[1] + '/index.html'; }],
+            [/^(.*)\/$/, function (m) { return (m[1] || '') + '/index.html'; }]
+        ];
+
+        for (var i = 0; i < rules.length; i++) {
+            var match = path.match(rules[i][0]);
+            if (match) { target = rules[i][1](match); break; }
+        }
+
+        if (target) {
+            target += search;
+            document.getElementById('target').textContent = '目标：' + target;
+            location.replace(target);
+        } else {
+            document.getElementById('hint').textContent = '没有找到这个页面';
+            document.getElementById('sub').textContent = '链接可能已失效，或该功能已下线：';
+        }
+    })();
+</script>
+</body>
+</html>

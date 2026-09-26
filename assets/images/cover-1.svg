@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6366f1"/><stop offset="1" stop-color="#a855f7"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="400" fill="url(#g1)"/>
+  <circle cx="530" cy="70" r="150" fill="#ffffff" opacity=".10"/>
+  <circle cx="110" cy="340" r="120" fill="#000000" opacity=".12"/>
+  <text x="44" y="352" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="44" font-weight="700" fill="#ffffff" opacity=".92">CLOUD</text>
+</svg>

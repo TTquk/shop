@@ -1,0 +1,13 @@
+# 统一使用 LF 行尾，避免在 Windows 上签出后整个文件都显示为「已修改」
+* text=auto eol=lf
+
+# 二进制资源不做行尾转换
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary

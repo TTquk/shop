@@ -1,0 +1,40 @@
+# Netlify 配置
+# 部署方式：把仓库直接连到 Netlify（Build command 留空，Publish directory 填 .）
+
+[build]
+  publish = "."
+  command = ""
+
+# 安全响应头：对齐原站的加固策略
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    # 用了内联 <script>/<style> 做变量注入与主题初始化，所以必须放开 unsafe-inline
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'"
+
+# 带版本号的静态资源可以长期缓存（版本变了 URL 就变，天然击穿缓存）
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# HTML 不缓存，保证改完立刻生效
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# 商品 / 站点数据每次都校验：改完商品或价格，刷新页面即可生效，不必动 ASSET_VERSION
+[[headers]]
+  for = "/assets/data/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# ⚠️ 路由规则一律写在 _redirects 里（包括最后那条 /* -> /404.html 404 兜底），
+# 不要在这里再写一遍 from = "/*" 的兜底 —— netlify.toml 的 redirects 优先级高于 _redirects，
+# 那条兜底会把 /item/2、/cat/1、/order/xxx 这类伪静态路径全部拦成 404。

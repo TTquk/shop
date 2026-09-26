@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>购物 - RoseShop · 云上小店</title>
+    <meta name="keywords" content="数字商品,卡密,虚拟商品商城,静态站点">
+    <meta name="description" content="一个纯静态、可部署到 Netlify / GitHub Pages 的虚拟商品商城">
+    <link rel="icon" href="assets/images/favicon.svg">
+
+    <!--start::HOOK-->
+    <!--end::HOOK-->
+
+    <link rel="stylesheet" href="assets/common/css/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/common/js/vendor/theme/default/layer.css">
+    <link rel="stylesheet" href="assets/common/css/vendor/toastr.min.css">
+    <link rel="stylesheet" href="assets/common/css/_.css">
+    <link rel="stylesheet" href="assets/user/css/index.css">
+</head>
+<body>
+
+<div data-chrome="header"></div>
+
+<main class="container shop-layout">
+    <div class="row g-3 g-lg-4">
+
+        <!-- 主区：分类 + 商品列表 -->
+        <div class="col-12 col-lg-8 col-xl-9 order-lg-last">
+            <section class="rs-hero shop-hero">
+                <span class="rs-hero__quote" data-role="hero-line-1">欢迎光临</span>
+                <h2 data-role="hero-slogan">只卖最真实，最管用，最时尚的数字商品</h2>
+                <p data-role="hero-sub">稳定运营 / 在线发货 / 售后明确 / 商品实用</p>
+                <p class="mt-2 mb-0" style="font-size:.86rem;opacity:.85" data-role="hero-line-2"></p>
+            </section>
+
+            <section class="rs-panel">
+                <div class="rs-panel__head">
+                    <span class="rs-panel__icon">🛍</span>
+                    <h6 data-i18n="购买">购买</h6>
+                    <div class="ms-auto text-muted-2 d-flex gap-3" style="font-size:.82rem" data-role="shop-stats"></div>
+                </div>
+                <div class="rs-panel__body">
+                    <div class="switch-category shop-cats"></div>
+                    <div class="row g-2 g-lg-3 item-list">
+                        <div class="item-message" data-i18n="努力加载中..">努力加载中..</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- 侧栏：公告 / 售后 / 运行状态 -->
+        <aside class="col-12 col-lg-4 col-xl-3 order-lg-first">
+            <section class="rs-panel side-panel">
+                <div class="rs-panel__head"><span class="rs-panel__icon">📢</span><h6 data-i18n="公告">公告</h6></div>
+                <div class="rs-panel__body" data-role="announcement"></div>
+            </section>
+
+            <section class="rs-panel side-panel">
+                <div class="rs-panel__head"><span class="rs-panel__icon">💬</span><h6 data-i18n="联系与售后">联系与售后</h6></div>
+                <div class="rs-panel__body" data-role="contacts"></div>
+            </section>
+
+            <section class="rs-panel side-panel">
+                <div class="rs-panel__head"><span class="rs-panel__icon">⏱</span><h6>运行状态</h6></div>
+                <div class="rs-panel__body">
+                    <div class="uptime-line"><span data-i18n="本站已稳定运行">本站已稳定运行</span>:</div>
+                    <div class="rs-timer mt-1" data-role="uptime">--</div>
+                </div>
+            </section>
+        </aside>
+
+    </div>
+</main>
+
+<div data-chrome="footer"></div>
+
+<!-- 第三方库（vendored，无外网依赖） -->
+<script src="assets/common/js/vendor/jquery.min.js"></script>
+<script src="assets/common/js/vendor/bootstrap.bundle.min.js"></script>
+<script src="assets/common/js/vendor/layer.js"></script>
+<script src="assets/common/js/vendor/sweetalert2.all.min.js"></script>
+<script src="assets/common/js/vendor/toastr.min.js"></script>
+
+<!-- 框架层：变量注入 / 控制器加载 / 公共运行时 -->
+<script src="assets/common/js/ready.js?v=1.0.0"></script>
+<script src="assets/data/i18n.js?v=1.0.0"></script>
+<script src="assets/data/catalog.js?v=1.0.0"></script>
+<script src="assets/data/cards.js?v=1.0.0"></script>
+<script src="assets/common/js/_.js?v=1.0.0"></script>
+<script src="assets/user/js/_index.js?v=1.0.0"></script>
+
+<!-- 页面控制器：一页一控制器 -->
+<script>ready("user/controller/index/index.js");</script>
+</body>
+</html>
