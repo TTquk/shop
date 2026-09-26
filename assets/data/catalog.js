@@ -6,7 +6,7 @@
 
 setVar("MOCK", true);
 setVar("API_BASE", "");            // 真实后端地址，例如 "https://shop-api.example.com"
-setVar("ASSET_VERSION", "1.0.0");  // 静态资源版本号（对应原站的 ?v=3.6.4）
+setVar("ASSET_VERSION", "1.0.1");  // 静态资源版本号（对应原站的 ?v=3.6.4）
 
 setVar("CONFIG", {
     site: {
