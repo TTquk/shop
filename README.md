@@ -59,12 +59,14 @@ node dev-server.js
 
 ### GitHub Pages
 
+本项目的线上实例：**https://ttquk.github.io/shop/**（子目录部署）
+
 ```bash
 git init
 git add .
 git commit -m "feat: static shop"
 git branch -M main
-git remote add origin https://github.com/<你>/<仓库>.html.git   # 换成你的仓库
+git remote add origin https://github.com/<你>/<仓库>.git    # 换成你的仓库
 git push -u origin main
 ```
 
@@ -72,6 +74,17 @@ git push -u origin main
 
 已经包含 `.nojekyll`（防止 Jekyll 忽略下划线开头的文件）和 `404.html`（伪静态回退）。
 **子目录部署（`https://<你>.github.io/<仓库>/`）无需改任何路径** —— 见下文 [架构说明](#架构说明)。
+
+> ⚠️ GitHub Pages **不支持 `_redirects`**（那是 Netlify 的能力），本仓库的 `_redirects`
+> 在 Pages 上不会生效。伪静态地址 `/item/1`、`/cat/1` 全部由 `404.html` 接管：
+> 它内联了一份路由表，用贪婪捕获组把 `/shop` 这类部署前缀原样保留，再 `location.replace()`
+> 到真实页面；且不引用任何外部资源，所以即使命中 `/a/b/c` 这种深层路径也不会裸奔。
+>
+> 副作用：这类地址在控制台会留下一条 404 记录（Pages 的 404 兜底本身就是 404 状态码），
+> 属于预期行为，功能不受影响。想要干净的 302，请部署到 Netlify。
+>
+> 另外 GitHub Pages 的 CDN 会缓存 404：**刚开启 Pages 的头几分钟**访问首页可能仍是 404，
+> 加个 `?v=1` 之类的查询串或等几分钟即可。
 
 ### Netlify
 
