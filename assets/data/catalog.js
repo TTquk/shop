@@ -135,5 +135,12 @@ setVar("COMMODITIES", [
         tags: [{ text: "新品", color: "red" }],
         description: "使用启动器直接进入布吉岛",
         config: {}
+    },
+    {
+        id: 5, category_id: 1, name: "辅助连点器(10~500cps)", cover: "assets/images/cover-liandian.svg",
+        price: 1, stock: 100, order_sold: 0, delivery_way: 1, recommend: 1,
+        tags: [{ text: "新品", color: "red" }],
+        description: "最高500cps，支持各种点击模式，辅助点击",
+        config: {}
     }
 ]);
