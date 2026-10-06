@@ -117,12 +117,12 @@
         );
 
         // 商品详情只渲染描述文本（原来的「商品 ID / 分类 ID」是调试信息，已去掉）
-        // 描述按行拆分，一个自然段渲染成一个 <p>，空行忽略
+        // 描述按行拆分，一个自然段渲染成一个 <p>，空行忽略；行内链接自动可点
         const description = String(item.description || '').trim();
         $Detail.html(description
             ? description.split(/\r?\n+/).map(function (line) {
                 line = line.trim();
-                return line ? '<p>' + util.escapeHtml(line) + '</p>' : '';
+                return line ? '<p>' + _Linkify(util.escapeHtml(line)) + '</p>' : '';
             }).join('')
             : '<p class="text-muted-2">—</p>');
 
@@ -137,6 +137,20 @@
     function _SkuPrice(skuList, name) {
         for (let i = 0; i < skuList.length; i++) if (skuList[i].name === name) return Number(skuList[i].price);
         return 0;
+    }
+
+    /**
+     * 把「已转义」的纯文本里的 http(s) 链接渲染成可点击链接。
+     * 只处理链接本身，其余内容保持转义后的原样，不会引入 XSS。
+     */
+    function _Linkify(escaped) {
+        return String(escaped).replace(/https?:\/\/[^\s<]+/g, function (raw) {
+            // 末尾的标点通常是句子的一部分，不进链接
+            const tail = (raw.match(/[.,!?)\]}>。，！？）】》、]+$/) || [''])[0];
+            const href = tail ? raw.slice(0, -tail.length) : raw;
+            if (!href) return raw;
+            return '<a href="' + href + '" target="_blank" rel="noopener noreferrer">' + href + '</a>' + tail;
+        });
     }
 
     /* ---------------- 采集下单参数 ---------------- */
