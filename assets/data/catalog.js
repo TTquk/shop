@@ -109,38 +109,45 @@ setVar("CATEGORIES", [
 setVar("COMMODITIES", [
     {
         id: 1, category_id: 1, name: "openzen client", cover: "assets/images/cover-mc.svg",
-        price: 2, stock: 100, order_sold: 0, delivery_way: 1, recommend: 1,
+        price: 10, stock: 100, order_sold: 0, delivery_way: 1, recommend: 1,
         tags: [{ text: "热销", color: "orange" }],
         // 描述支持换行：一行 = 一个段落；其中的 http(s) 链接会自动变成可点击链接
-        description: "购买后客服一对一服务，几十种游戏端随便选\n预览视频：https://www.bilibili.com/video/BV12yVE6wE5P?t=2.2",
+        description: "预览视频：https://www.bilibili.com/video/BV12yVE6wE5P?t=2.2",
         config: {}
     },
     {
         id: 2, category_id: 1, name: "kiss（zen升级）", cover: "assets/images/cover-kiss.svg",
-        price: 3, stock: 100, order_sold: 0, delivery_way: 1, recommend: 1,
+        price: 15, stock: 100, order_sold: 0, delivery_way: 1, recommend: 1,
         tags: [{ text: "新品", color: "red" }],
         description: "预览视频：https://www.bilibili.com/video/BV1xeeM6QEjt?t=0",
         config: {}
     },
     {
-        id: 3, category_id: 1, name: "lf21", cover: "assets/images/cover-lf21.svg",
-        price: 5, stock: 100, order_sold: 0, delivery_way: 1, recommend: 1,
+        id: 3, category_id: 1, name: "lf21(带有音乐机器人)", cover: "assets/images/cover-lf21.svg",
+        price: 28, stock: 100, order_sold: 0, delivery_way: 1, recommend: 1,
         tags: [{ text: "新品", color: "red" }],
         description: "预览视频：https://www.bilibili.com/video/BV1pKHf6fE4K?t=0",
         config: {}
     },
     {
         id: 4, category_id: 1, name: "脱盒", cover: "assets/images/cover-tuohe.svg",
-        price: 3, stock: 100, order_sold: 0, delivery_way: 1, recommend: 1,
+        price: 5, stock: 100, order_sold: 0, delivery_way: 1, recommend: 1,
         tags: [{ text: "新品", color: "red" }],
         description: "使用启动器直接进入布吉岛",
         config: {}
     },
     {
         id: 5, category_id: 1, name: "辅助连点器(10~500cps)", cover: "assets/images/cover-liandian.svg",
-        price: 1, stock: 100, order_sold: 0, delivery_way: 1, recommend: 1,
+        price: 5, stock: 100, order_sold: 0, delivery_way: 1, recommend: 1,
         tags: [{ text: "新品", color: "red" }],
         description: "最高500cps，支持各种点击模式，辅助点击",
+        config: {}
+    },
+    {
+        id: 6, category_id: 1, name: "VapeV4", cover: "assets/images/cover-vapev4.svg",
+        price: 20, stock: 100, order_sold: 0, delivery_way: 1, recommend: 1,
+        tags: [{ text: "新品", color: "red" }],
+        description: "",
         config: {}
     }
 ]);
