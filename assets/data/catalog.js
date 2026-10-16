@@ -149,5 +149,12 @@ setVar("COMMODITIES", [
         tags: [{ text: "新品", color: "red" }],
         description: "",
         config: {}
+    },
+    {
+        id: 7, category_id: 1, name: "基岩版挂服机+注入(匹配手机玩家，永不封)", cover: "assets/images/cover-jiyan.svg",
+        price: 35, stock: 100, order_sold: 0, delivery_way: 1, recommend: 1,
+        tags: [{ text: "新品", color: "red" }],
+        description: "预览视频：https://www.bilibili.com/video/BV1byh16ZEDn/\n挂服机和注入都是电脑的！！！",
+        config: {}
     }
 ]);
