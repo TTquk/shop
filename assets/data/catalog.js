@@ -109,7 +109,7 @@ setVar("CATEGORIES", [
 setVar("COMMODITIES", [
     {
         id: 1, category_id: 1, name: "openzen client", cover: "assets/images/cover-mc.svg",
-        price: 10, stock: 100, order_sold: 0, delivery_way: 1, recommend: 1,
+        price: 22, stock: 100, order_sold: 0, delivery_way: 1, recommend: 1,
         tags: [{ text: "热销", color: "orange" }],
         // 描述支持换行：一行 = 一个段落；其中的 http(s) 链接会自动变成可点击链接
         description: "预览视频：https://www.bilibili.com/video/BV12yVE6wE5P?t=2.2",
