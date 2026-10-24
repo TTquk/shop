@@ -156,5 +156,12 @@ setVar("COMMODITIES", [
         tags: [{ text: "新品", color: "red" }],
         description: "预览视频：https://www.bilibili.com/video/BV1byh16ZEDn/\n挂服机和注入都是电脑的！！！",
         config: {}
+    },
+    {
+        id: 8, category_id: 1, name: "NexaX", cover: "assets/images/cover-nexax.svg",
+        price: 10, stock: 100, order_sold: 0, delivery_way: 1, recommend: 1,
+        tags: [{ text: "新品", color: "red" }],
+        description: "脱控,反控一键操作,无惧远程控制",
+        config: {}
     }
 ]);
