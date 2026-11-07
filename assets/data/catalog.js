@@ -163,5 +163,12 @@ setVar("COMMODITIES", [
         tags: [{ text: "新品", color: "red" }],
         description: "脱控,反控一键操作,无惧远程控制",
         config: {}
+    },
+    {
+        id: 9, category_id: 1, name: "Java无限小号模块", cover: "assets/images/cover-java.svg",
+        price: 10, stock: 100, order_sold: 0, delivery_way: 1, recommend: 1,
+        tags: [{ text: "新品", color: "red" }],
+        description: "无限4399小号可进布吉岛，EC",
+        config: {}
     }
 ]);
