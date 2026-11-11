@@ -108,18 +108,11 @@ setVar("CATEGORIES", [
  */
 setVar("COMMODITIES", [
     {
-        id: 1, category_id: 1, name: "openzen client", cover: "assets/images/cover-mc.svg",
-        price: 22, stock: 100, order_sold: 0, delivery_way: 1, recommend: 1,
+        id: 1, category_id: 1, name: "zen", cover: "assets/images/cover-zen.svg",
+        price: 15, stock: 100, order_sold: 0, delivery_way: 1, recommend: 1,
         tags: [{ text: "热销", color: "orange" }],
         // 描述支持换行：一行 = 一个段落；其中的 http(s) 链接会自动变成可点击链接
         description: "预览视频：https://www.bilibili.com/video/BV12yVE6wE5P?t=2.2",
-        config: {}
-    },
-    {
-        id: 2, category_id: 1, name: "kiss（zen升级）", cover: "assets/images/cover-kiss.svg",
-        price: 15, stock: 100, order_sold: 0, delivery_way: 1, recommend: 1,
-        tags: [{ text: "新品", color: "red" }],
-        description: "预览视频：https://www.bilibili.com/video/BV1xeeM6QEjt?t=0",
         config: {}
     },
     {
@@ -169,6 +162,13 @@ setVar("COMMODITIES", [
         price: 10, stock: 100, order_sold: 0, delivery_way: 1, recommend: 1,
         tags: [{ text: "新品", color: "red" }],
         description: "无限4399小号可进布吉岛，EC",
+        config: {}
+    },
+    {
+        id: 10, category_id: 1, name: "Nilore", cover: "assets/images/cover-nilore.svg",
+        price: 22, stock: 100, order_sold: 0, delivery_way: 1, recommend: 1,
+        tags: [{ text: "新品", color: "red" }],
+        description: "",
         config: {}
     }
 ]);
